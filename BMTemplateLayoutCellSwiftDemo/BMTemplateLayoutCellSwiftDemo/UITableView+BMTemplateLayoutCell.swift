@@ -21,36 +21,29 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-/**
- ****************************************************************
- Swift版本待完善中哈
- ****************************************************************
- */
-
 import UIKit
 
 public typealias ConfigurationCellClosure             = ((UITableViewCell) -> (Void))
-public typealias ConfigurationHeaderFooterViewClosure = ((UITableViewHeaderFooterView) -> (Void))
 
 extension UITableView {
-
-    public func cellHeight(_ cellClass: AnyClass, key: String? = nil, configuration: ConfigurationCellClosure) -> Float {
-        return Float(UITableViewAutomaticDimension)
-    }
-
-    public func cellHeight(_ cellClass: AnyClass, index: IndexPath, configuration: ConfigurationCellClosure) -> Float {
-        return Float(UITableViewAutomaticDimension)
+    public func cellHeight(_ cellClass: AnyClass, configuration: ConfigurationCellClosure) -> CGFloat {
+        let path = Bundle.main.path(forResource: String(describing: cellClass), ofType: "nib")
+        if (path?.characters.count)! > 0 {
+            let cell = UINib.init(nibName: String(describing: cellClass), bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! UITableViewCell
+            let superView = UIView()
+            superView.frame = CGRect.init(x: 0, y: 0, width: self.frame.width, height: 0)
+            cell.frame = CGRect.init(x: 0, y: 0, width: self.frame.width, height: 0)
+            superView.addSubview(cell)
+            configuration(cell)
+            superView.layoutIfNeeded()
+            var maxY : CGFloat = 0.0
+            for view in cell.contentView.subviews {
+                if view.frame.maxY > maxY {
+                    maxY = view.frame.maxY
+                }
+            }
+            return maxY
+        }
+        return 0
     }
 }
-
-extension UITableView {
-
-    public func headerFooterViewHeight(_ cellClass: AnyClass, key: String? = nil, configuration: ConfigurationHeaderFooterViewClosure) -> Float {
-        return Float(UITableViewAutomaticDimension)
-    }
-
-    public func headerFooterViewHeight(_ cellClass: AnyClass, isHeaderView: Bool = true, section: Int, configuration: ConfigurationHeaderFooterViewClosure) -> Float {
-        return Float(UITableViewAutomaticDimension)
-    }
-}
-
