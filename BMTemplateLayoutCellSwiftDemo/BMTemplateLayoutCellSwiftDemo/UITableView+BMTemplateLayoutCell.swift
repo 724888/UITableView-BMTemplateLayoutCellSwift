@@ -26,24 +26,28 @@ import UIKit
 public typealias ConfigurationCellClosure             = ((UITableViewCell) -> (Void))
 
 extension UITableView {
-    public func cellHeight(_ cellClass: AnyClass, configuration: ConfigurationCellClosure) -> CGFloat {
+    public func heightFor(_ cellClass: AnyClass, configuration: ConfigurationCellClosure) -> CGFloat {
         let path = Bundle.main.path(forResource: String(describing: cellClass), ofType: "nib")
-        if (path?.characters.count)! > 0 {
-            let cell = UINib.init(nibName: String(describing: cellClass), bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! UITableViewCell
-            let superView = UIView()
-            superView.frame = CGRect.init(x: 0, y: 0, width: self.frame.width, height: 0)
-            cell.frame = CGRect.init(x: 0, y: 0, width: self.frame.width, height: 0)
-            superView.addSubview(cell)
-            configuration(cell)
-            superView.layoutIfNeeded()
-            var maxY : CGFloat = 0.0
-            for view in cell.contentView.subviews {
-                if view.frame.maxY > maxY {
-                    maxY = view.frame.maxY
-                }
-            }
-            return maxY
+        var cell: UITableViewCell? = nil
+        if (path?.count)! > 0 {
+            cell = UINib.init(nibName: String(describing: cellClass), bundle: nil).instantiate(withOwner: nil, options: nil)[0] as? UITableViewCell
+        } else {
+            let cl = cellClass as! UITableViewCell.Type;
+            cell = cl.init(style:.value1, reuseIdentifier:nil)
         }
-        return 0
+        cell?.setValue("UITableView_" + String(describing: cellClass), forKey: "reuseIdentifier")
+        let superView = UIView()
+        superView.frame = CGRect.init(x: 0, y: 0, width: self.frame.width, height: 0)
+        cell?.frame = CGRect.init(x: 0, y: 0, width: self.frame.width, height: 0)
+        superView.addSubview(cell!)
+        configuration(cell!)
+        superView.layoutIfNeeded()
+        var maxY : CGFloat = 0.0
+        for view in (cell?.contentView.subviews)! {
+            if view.frame.maxY > maxY {
+                maxY = view.frame.maxY
+            }
+        }
+        return maxY
     }
 }

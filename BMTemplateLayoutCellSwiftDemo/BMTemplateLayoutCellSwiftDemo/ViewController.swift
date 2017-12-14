@@ -26,12 +26,23 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         if cell == nil {
             cell = UINib.init(nibName: "TableViewCell", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as? UITableViewCell
         }
+        let n = indexPath.row
+        if (n%2 == 1) {
+            (cell as! TableViewCell).testLabel.text = "heightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightFheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtorRowAtheightForRowAtheightForRowAt"
+        } else {
+            (cell as! TableViewCell).testLabel.text = "heightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAt"
+        }
         return cell!;
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.cellHeight(TableViewCell.self) { (cell) -> (Void) in
-            (cell as! TableViewCell).testLabel.text = "heightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAt"
+        return tableView.heightFor(TableViewCell.self) { (cell) -> (Void) in
+            let n = indexPath.row
+            if (n%2 == 1) {
+                (cell as! TableViewCell).testLabel.text = "heightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAt"
+            } else {
+                (cell as! TableViewCell).testLabel.text = "heightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAtheightForRowAt"
+            }
         }
     }
 }
