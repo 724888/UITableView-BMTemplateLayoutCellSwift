@@ -25,7 +25,6 @@ import UIKit
 
 public typealias ConfigurationCellClosure = ((UITableViewCell) -> (Void))
 
-
 extension UITableView {
     public func heightFor(_ cellClass: AnyClass, configuration: ConfigurationCellClosure) -> CGFloat {
         let path = Bundle.main.path(forResource: String(describing: cellClass), ofType: "nib")
