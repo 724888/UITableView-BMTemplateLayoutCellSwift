@@ -23,7 +23,8 @@
 
 import UIKit
 
-public typealias ConfigurationCellClosure             = ((UITableViewCell) -> (Void))
+public typealias ConfigurationCellClosure = ((UITableViewCell) -> (Void))
+
 
 extension UITableView {
     public func heightFor(_ cellClass: AnyClass, configuration: ConfigurationCellClosure) -> CGFloat {
@@ -32,10 +33,10 @@ extension UITableView {
         if (path?.count)! > 0 {
             cell = UINib.init(nibName: String(describing: cellClass), bundle: nil).instantiate(withOwner: nil, options: nil)[0] as? UITableViewCell
         } else {
-            let cl = cellClass as! UITableViewCell.Type;
-            cell = cl.init(style:.value1, reuseIdentifier:nil)
+            let cl = cellClass as! UITableViewCell.Type
+            cell = cl.init(style:.default, reuseIdentifier:nil)
         }
-        cell?.setValue("UITableView_" + String(describing: cellClass), forKey: "reuseIdentifier")
+        cell?.setValue("idhong_" + String(describing: cellClass), forKey: "reuseIdentifier")
         let superView = UIView()
         superView.frame = CGRect.init(x: 0, y: 0, width: self.frame.width, height: 0)
         cell?.frame = CGRect.init(x: 0, y: 0, width: self.frame.width, height: 0)
